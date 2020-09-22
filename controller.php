@@ -22,12 +22,22 @@ require_once "validation.php";
 
 
 if(isset($_POST["action"]) && $_POST["action"] == "Insert_post"){
-    $post = $validation->filterName($_POST["post_title"]);
-    $post_desc = $validation->filterName($_POST["post_desc"]);
-    if(!$post && !$post_desc){
-        echo 'Sva polja su obavezna';
+    $post = mysqli_real_escape_string($db->con, $_POST['post_title']);
+    $post_desc = mysqli_real_escape_string($db->con, $_POST['post_desc']);
+    
+    $arr_data = array($post, $post_desc);
+
+    if(!$validation->check_empty($arr_data)){
+        echo 'All data are required';
         exit();
-    }else{
+    }
+    else
+    if(!$validation->filterName($arr_data)){
+        echo 'Only letters and numbers are allowed';
+        exit();
+    }
+    
+    else{
          $insert_data = array(
         'post_title' => mysqli_real_escape_string($db->con, $_POST['post_title']),
         'post_desc' => mysqli_real_escape_string($db->con, $_POST['post_desc'])

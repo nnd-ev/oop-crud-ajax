@@ -14,6 +14,7 @@
     
 <br /><br />  
                 <div class="container" style="width:700px;">  
+                <div class="alert alert-danger display-error" style="display: none"></div>
                 <form method="POST" id="user_from" onsubmit="insertData(event, 'user_from', 'Insert_post')">  
                      <label>Post Title</label>  
                      <input type="text" name="post_title" id="post_title" class="form-control" />  
@@ -83,11 +84,10 @@ for(var item in arr){
    
    function insertData(event, form_name, insert_name){
     event.preventDefault();
-    alert(form_name);
     $('.action').val(insert_name); 
      var forma= document.querySelector('#'+form_name).getAttribute("id");
  
-    $.ajax({
+     $.ajax({
             url: "controller.php",
             method: "POST",
             data:new FormData(document.getElementById(''+form_name+'')),
